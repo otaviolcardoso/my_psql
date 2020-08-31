@@ -1,0 +1,32 @@
+version: '3.4'
+
+services:
+  postgres:
+    container_name: postgres
+    build:
+      context: ./database 
+      dockerfile: postgres.Dockerfile
+    env_file:
+      - 'postgres.env'
+    ports:
+      - "5432:5432"
+  postgres-schema:
+    container_name: psql-schema
+    build:
+      context: ./schema
+    env_file:
+      - 'postgres.env'
+    links:
+      - postgres
+  postgres-seed:
+    container_name: psql-seeder
+    build:
+      context: ./seed
+    env_file:
+      - 'postgres.env'
+    links:
+      - postgres
+ 
+
+
+
